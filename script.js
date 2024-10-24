@@ -3,7 +3,7 @@ const winner = () => {
     turnText.innerHTML = "優勝です"
     console.log("you won; you may leave now.")
     let osu = document.getElementById('osu');
-    osu.innerHTML = `<button onclick="randomiser(${reset()})" id="osu2">reset</button>`
+    osu.innerHTML = `<button onclick="randomiser(reset())" id="osu2">reset</button>`
 }
 
 const death = () => {
@@ -11,7 +11,7 @@ const death = () => {
     turnText.innerHTML = "あなたは殺されてしまいました"
     console.log("you're dead")
     let osu = document.getElementById('osu');
-    osu.innerHTML = `<button onclick="randomiser(${reset()})" id="osu2">reset</button>`
+    osu.innerHTML = `<button onclick="randomiser(reset())" id="osu2">reset</button>`
 };
 
 const reset = () => {
@@ -25,7 +25,9 @@ const opponent = async (difference) => {
     let turnText = document.getElementById('turn');
     turnText.innerHTML = "相手の順番です"
     let differenceOpponent = difference;
-    await delay(5000);
+    let osu = document.getElementById('osu');
+    osu.innerHTML = ``;
+    await delay(3000);
     if (difference === 0) {
         winner();
         return;
@@ -36,20 +38,28 @@ const opponent = async (difference) => {
         turnText = document.getElementById('turn');
         turnText.innerHTML = "あなたの順番です"
 
-        let aitenoamari = document.getElementById('aitenoamari');
-        if (aitenoamari) {  
-            aitenoamari.innerText = `相手の余りは${differenceOpponent}`;  
-        }
+        // let aitenoamari = document.getElementById('aitenoamari');
+        // if (aitenoamari) {  
+        //     aitenoamari.innerText = `相手の余りは${differenceOpponent}`;  
+        // }
         let osu = document.getElementById('osu');
-        osu.innerHTML = `<button onclick="randomiser(${differenceOpponent}, ${oner})" id="osu2">continue</button>`
+        osu.innerHTML = `<button onclick="randomiser(${differenceOpponent}, ${oner})" id="osu2">continue</button><button onclick="shuffle()" id="osu3">shuffle</button>`;
         console.log(differenceOpponent);
     }
 }
 
-const randomiser = async (previous, one) => {
+const shuffle = () => { 
+    randomiser(0, 0, 1)
+}
+const randomiser = async (previous, one, osu1) => {
     let turnText = document.getElementById('turn');
     turnText.innerHTML = "あなたの順番です"
-    await delay(5000);
+    let osu = document.getElementById('osu');
+    osu.innerHTML = `<button>play</button>`
+    if (osu1 == 1 || one === 1) {
+        osu.innerHTML = `<button>reset</button><button>shuffle</button>`
+    }
+    await delay(3000);
     if (one === 1) {
         let differenceYours = previous;
         if (differenceYours === 0) {
@@ -59,10 +69,10 @@ const randomiser = async (previous, one) => {
             differenceYours = differenceYours - 1;
 
             
-            let zibunnnoamari = document.getElementById('zibunnnoamari');
-            if (zibunnnoamari) {  
-                zibunnnoamari.innerText = `自分の余りは${differenceYours}`;  
-            }
+            // let zibunnnoamari = document.getElementById('zibunnnoamari');
+            // if (zibunnnoamari) {  
+            //     zibunnnoamari.innerText = `自分の余りは${differenceYours}`;  
+            // }
 
             console.log(differenceYours);
             opponent(differenceYours);
@@ -70,23 +80,21 @@ const randomiser = async (previous, one) => {
     } else {
         const badNumber = Math.floor(Math.random() * 6) + 1;
         const shuffle = Math.floor(Math.random() * badNumber) + 1;
-
-        // Get elements by ID and update their innerText
         let shikei = document.getElementById('shikei');
-        if (shikei) {
-            shikei.innerText = `死刑数は${badNumber}`;  
-        }
-        let set = document.getElementById('set');
-        if (set) {
-            set.innerText = `決定数は${shuffle}`;  
-        }
+        // if (shikei) {
+        //     shikei.innerText = `死刑数は${badNumber}`;  
+        // }
+        // let set = document.getElementById('set');
+        // if (set) {
+        //     set.innerText = `決定数は${shuffle}`;  
+        // }
 
         let difference = badNumber - shuffle;
 
-        let amari = document.getElementById('amari');
-        if (set) {
-            amari.innerText = `違いは${difference}`;  
-        }
+        // let amari = document.getElementById('amari');
+        // if (set) {
+        //     amari.innerText = `違いは${difference}`;  
+        // }
 
         if (difference === 0) {
             death();
@@ -94,10 +102,10 @@ const randomiser = async (previous, one) => {
         } else {
             difference = difference - 1;
 
-            let zibunnnoamari = document.getElementById('zibunnnoamari');
-            if (zibunnnoamari) {
-                zibunnnoamari.innerText = `自分の余りは${difference}`;  
-            }
+            // let zibunnnoamari = document.getElementById('zibunnnoamari');
+            // if (zibunnnoamari) {
+            //     zibunnnoamari.innerText = `自分の余りは${difference}`;  
+            // }
 
             console.log(difference);
             opponent(difference);
