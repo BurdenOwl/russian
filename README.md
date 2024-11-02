@@ -6,4 +6,4 @@ The language is currently in Japanese, and the explanations are in Japanese as w
 
 説明：
 
-![very very bad explaination!](kaka better.png)
+![very very bad explaination!](exp.png)
